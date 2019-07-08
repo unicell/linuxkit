@@ -19,13 +19,20 @@ REPO=$1
 VER1=$2
 VER2=$3
 URL=http://mirrors.kernel.org/ubuntu/pool/main/l/linux
+URL_FLAVORED=http://mirrors.kernel.org/ubuntu/pool/main/l/linux-signed
+#UBUNTU_URL=http://archive.ubuntu.com/ubuntu/pool/main/l/linux-signed
 ARCH=amd64
 
-KERNEL_DEB="${URL}/linux-image-${VER1}-generic_${VER1}.${VER2}_${ARCH}.deb"
+KERNEL_DEB="${URL_FLAVORED}/linux-image-${VER1}-generic_${VER1}.${VER2}_${ARCH}.deb"
 KERNEL_EXTRA_DEB="${URL}/linux-image-extra-${VER1}-generic_${VER1}.${VER2}_${ARCH}.deb"
+
+MODULES_DEB="${URL}/linux-modules-${VER1}-generic_${VER1}.${VER2}_${ARCH}.deb"
+MODULES_EXTRA_DEB="${URL}/linux-modules-extra-${VER1}-generic_${VER1}.${VER2}_${ARCH}.deb"
+
 HEADERS_DEB="${URL}/linux-headers-${VER1}-generic_${VER1}.${VER2}_${ARCH}.deb"
 HEADERS_ALL_DEB="${URL}/linux-headers-${VER1}_${VER1}.${VER2}_all.deb"
 
-DEB_URLS="${KERNEL_DEB} ${KERNEL_EXTRA_DEB} ${HEADERS_DEB} ${HEADERS_ALL_DEB}"
+#DEB_URLS="${KERNEL_DEB} ${KERNEL_EXTRA_DEB} ${HEADERS_DEB} ${HEADERS_ALL_DEB}"
+DEB_URLS="${KERNEL_DEB} ${MODULES_DEB} ${MODULES_EXTRA_DEB} ${HEADERS_DEB} ${HEADERS_ALL_DEB}"
 
 docker build -t "${REPO}:${VER1}.${VER2}" -f Dockerfile.deb --no-cache --build-arg DEB_URLS="${DEB_URLS}" .
